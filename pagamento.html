@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pagamento</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        font-family: Inter;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="bg-[#1C1C23] h-screen flex flex-col text-white">
+      <header class="w-full">
+        <nav class="flex items-center py-10 pr-10 pl-6 gap-14">
+          <img src="./assets/voltar.svg" />
+          <h1 class="text-[#A2A2B5]">Pagamento</h1>
+        </nav>
+      </header>
+      <main class="grow flex flex-col items-center justify-center">
+        <img src="./assets/cartao.svg" />
+        <div>
+          <p class="text-center mb-4">Inscrições</p>
+          <ul class="flex items-center justify-center gap-2">
+            <li><img src="./assets/spotify.svg" /></li>
+            <li><img src="./assets/spotify.svg" /></li>
+            <li><img src="./assets/spotify.svg" /></li>
+            <li><img src="./assets/spotify.svg" /></li>
+          </ul>
+        </div>
+
+        <button
+          class="flex items-center justify-center gap-2.5 py-4 px-20 border border-dashed border-[#4E4E61] rounded-2xl mt-4 transition-transform hover:scale-105"
+          onclick="toggleModal()"
+        >
+          <span class="text-gray-300"> Adicionar novo cartão </span>
+          <img src="./assets/add.svg" />
+        </button>
+      </main>
+
+      <div
+        class="hidden absolute z-20 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+        id="modal-form"
+      >
+        <form class="bg-[#4E4E61]/40 py-10 px-24 rounded-2xl relative">
+          <span class="absolute right-4 top-4 text-xl" onclick="toggleModal()"
+            >X</span
+          >
+          <div class="flex flex-col gap-0.5 mt-4">
+            <label
+              class="block text-gray-500 text-xs text-white"
+              for="inputField"
+              >Numero do cartão</label
+            >
+            <input
+              type="password"
+              id="inputField"
+              class="bg-transparent border-gray-300 border rounded-2xl w-full flex items-center justify-center gap-2 text-sm py-3 px-4"
+            />
+          </div>
+
+          <div class="flex flex-col gap-0.5 mt-4">
+            <label
+              class="block text-gray-500 text-xs text-white"
+              for="inputField"
+              >CVV</label
+            >
+            <input
+              type="password"
+              id="inputField"
+              class="bg-transparent border-gray-300 border rounded-2xl w-full flex items-center justify-center gap-2 text-sm py-3 px-4"
+            />
+          </div>
+
+          <div class="flex flex-col gap-0.5 mt-4">
+            <label
+              class="block text-gray-500 text-xs text-white"
+              for="inputField"
+              >Nome</label
+            >
+            <input
+              type="password"
+              id="inputField"
+              class="bg-transparent border-gray-300 border rounded-2xl w-full flex items-center justify-center gap-2 text-sm py-3 px-4"
+            />
+          </div>
+
+          <div class="flex flex-col gap-0.5 mt-4">
+            <label
+              class="block text-gray-500 text-xs text-white"
+              for="inputField"
+              >Validade</label
+            >
+            <input
+              type="password"
+              id="inputField"
+              class="bg-transparent border-gray-300 border rounded-2xl w-full flex items-center justify-center gap-2 text-sm py-3 px-4"
+            />
+          </div>
+        </form>
+      </div>
+      <div
+        class="hidden absolute w-screen h-screen bg-[#1C1C23]/50 z-10"
+        id="modal-background"
+        onclick="toggleModal()"
+      ></div>
+    </div>
+
+    <script>
+      let isModalOpen = false;
+      const modalBackground = document.getElementById("modal-background");
+      const modalForm = document.getElementById("modal-form");
+
+      function toggleModal() {
+        isModalOpen = !isModalOpen;
+
+        if (isModalOpen) {
+          modalBackground.classList.remove("hidden");
+          modalForm.classList.remove("hidden");
+        } else {
+          modalBackground.classList.add("hidden");
+          modalForm.classList.add("hidden");
+        }
+      }
+    </script>
+  </body>
+</html>

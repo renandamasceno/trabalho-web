@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        font-family: Inter;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="bg-[#1C1C23] h-screen flex flex-col text-white">
+      <header class="w-full">
+        <nav class="flex items-center justify-between p-10">
+          <ul class="flex items-center justify-center gap-8">
+            <li>
+              <div
+                class="bg-[#4E4E61]/20 min-w-[8rem] p-6 rounded-2xl flex items-center justify-center gap-2 transition-transform hover:scale-105 hover:cursor-pointer"
+              >
+                <img src="./assets/dashboard.svg" />
+                <span class="text-[#83839C] text-xs"> Dashboard </span>
+              </div>
+            </li>
+            <li>
+              <div
+                class="bg-[#4E4E61]/20 min-w-[8rem] p-6 rounded-2xl flex items-center justify-center gap-2 transition-transform hover:scale-105 hover:cursor-pointer"
+              >
+                <img src="./assets/pagamento.svg" />
+                <span class="text-[#83839C] text-xs"> Pagamento </span>
+              </div>
+            </li>
+          </ul>
+
+          <ul class="flex items-center justify-center gap-8">
+            <li>
+              <div
+                class="bg-[#4E4E61]/20 min-w-[8rem] p-6 rounded-2xl flex items-center justify-center gap-2 transition-transform hover:scale-105 hover:cursor-pointer"
+              >
+                <span class="text-[#83839C] text-xs"> Sair </span>
+              </div>
+            </li>
+          </ul>
+        </nav>
+      </header>
+
+      <main class="grow">
+        <ul class="flex items-center justify-center gap-8">
+          <li>
+            <div
+              class="bg-[#4E4E61]/20 min-w-[8rem] px-2.5 py-4 rounded-2xl flex flex-col items-center justify-center gap-1 transition-transform hover:scale-105 hover:cursor-pointer"
+            >
+              <p class="text-[#83839C] text-xs">Assinaturas ativas</p>
+              <p class="font-bold">12</p>
+            </div>
+          </li>
+          <li>
+            <div
+              class="bg-[#4E4E61]/20 min-w-[8rem] px-2.5 py-4 rounded-2xl flex flex-col items-center justify-center gap-1 transition-transform hover:scale-105 hover:cursor-pointer"
+            >
+              <p class="text-[#83839C] text-xs">Assinatura mais cara</p>
+              <p class="font-bold">R$66,66</p>
+            </div>
+          </li>
+          <li>
+            <div
+              class="bg-[#4E4E61]/20 min-w-[8rem] px-2.5 py-4 rounded-2xl flex flex-col items-center justify-center gap-1 transition-transform hover:scale-105 hover:cursor-pointer"
+            >
+              <p class="text-[#83839C] text-xs">Assinatura mais barata</p>
+              <p class="font-bold">R$69,69</p>
+            </div>
+          </li>
+        </ul>
+
+        <ul class="flex flex-col items-center justify-center mt-12 gap-3">
+          <li
+            class="w-full flex items-center justify-between max-w-xs border border-gray-300 rounded-2xl p-3"
+          >
+            <div class="flex items-center gap-2">
+              <img src="./assets/spotify.svg" />
+              <p class="font-bold">Spotify</p>
+            </div>
+            <p>R$24,58</p>
+          </li>
+
+          <li
+            class="w-full flex items-center justify-between max-w-xs border border-gray-300 rounded-2xl p-3"
+          >
+            <div class="flex items-center gap-2">
+              <img src="./assets/spotify.svg" />
+              <p class="font-bold">Spotify</p>
+            </div>
+            <p>R$24,58</p>
+          </li>
+
+          <li
+            class="w-full flex items-center justify-between max-w-xs border border-gray-300 rounded-2xl p-3"
+          >
+            <div class="flex items-center gap-2">
+              <img src="./assets/spotify.svg" />
+              <p class="font-bold">Spotify</p>
+            </div>
+            <p>R$24,58</p>
+          </li>
+          <li
+            class="w-full flex items-center justify-between max-w-xs border border-gray-300 rounded-2xl p-3"
+          >
+            <div class="flex items-center gap-2">
+              <img src="./assets/spotify.svg" />
+              <p class="font-bold">Spotify</p>
+            </div>
+            <p>R$24,58</p>
+          </li>
+        </ul>
+      </main>
+    </div>
+  </body>
+</html>
