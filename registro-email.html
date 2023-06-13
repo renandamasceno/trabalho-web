@@ -4,14 +4,22 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Registre-se com email</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <title>Duduck - Registre-se com E-mail</title>
+
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Axios -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap"
       rel="stylesheet"
     />
+
     <style>
       * {
         font-family: Inter;
@@ -20,34 +28,64 @@
   </head>
   <body>
     <div class="bg-[#1C1C23] h-screen flex items-center text-white">
-      <div
-        class="flex flex-col w-full items-stretch justify-center max-w-5xl mx-auto"
+      <form
+        id="register-form"
+        class="flex flex-col gap-2 w-full items-stretch justify-center mx-4 md:mx-48"
+        onsubmit="handleRegister(event)"
       >
         <div class="flex flex-col gap-0.5">
-          <label class="text-gray-500 text-xs" for="inputField">Email:</label>
+          <label class="text-gray-500 text-xs" for="name">Nome:</label>
           <input
             type="text"
-            id="inputField"
+            id="name"
+            name="name"
+            required
             class="bg-transparent border-gray-300 border rounded-full w-full flex items-center justify-center gap-2 text-sm py-3 px-4"
           />
         </div>
-        <div class="flex flex-col gap-0.5 mt-4">
-          <label class="block text-gray-500 text-xs" for="inputField"
-            >Senha:</label
+        <div class="flex flex-col gap-0.5">
+          <label class="text-gray-500 text-xs" for="profile-url"
+            >Link da Foto de Perfil:</label
           >
           <input
-            type="password"
-            id="inputField"
+            type="text"
+            id="profile-url"
+            name="profile-url"
+            required
             class="bg-transparent border-gray-300 border rounded-full w-full flex items-center justify-center gap-2 text-sm py-3 px-4"
           />
         </div>
+        <div class="flex flex-col gap-0.5">
+          <label class="text-gray-500 text-xs" for="email">E-mail:</label>
+          <input
+            type="text"
+            id="email"
+            name="email"
+            required
+            class="bg-transparent border-gray-300 border rounded-full w-full flex items-center justify-center gap-2 text-sm py-3 px-4"
+          />
+        </div>
+        <div class="flex flex-col gap-0.5">
+          <label class="block text-gray-500 text-xs" for="current-password">
+            Senha:
+          </label>
+          <input
+            type="password"
+            id="current-password"
+            name="current-password"
+            required
+            class="bg-transparent border-gray-300 border rounded-full w-full flex items-center justify-center gap-2 text-sm py-3 px-4"
+          />
+        </div>
+
         <p class="text-[#A2A2B6] text-xs mt-4">
           Use 8 ou mais caracteres com uma mistura de letras, números e
           símbolos.
         </p>
-        <a
-          href=""
-          class="text-sm py-3 rounded-full transition-transform hover:cursor-pointer hover:scale-105 text-center mt-16"
+
+        <button
+          type="submit"
+          class="text-sm py-3 rounded-full transition-transform hover:cursor-pointer hover:scale-105 text-center mt-8"
           style="
             background: radial-gradient(
                 100% 100% at 50% 100%,
@@ -57,15 +95,59 @@
               #ff7966;
             box-shadow: 0px 8px 25px rgba(255, 121, 102, 0.5);
           "
-          >Comece, é grátis!</a
         >
+          Comece, é grátis!
+        </button>
 
-        <p class="text-center mt-[7.5rem] text-sm">Você já possui conta?</p>
+        <p class="text-center mt-8 text-sm">Você já possui conta?</p>
         <a
+          href="./login.html"
           class="text-sm py-3 rounded-full bg-white/10 transition-transform hover:scale-105 hover:cursor-pointer text-center mt-5"
-          >Entrar</a
         >
-      </div>
+          Entrar
+        </a>
+      </form>
     </div>
+
+    <script>
+      // Get inputs by ID
+      const nameInput = document.getElementById('name');
+      const profileUrlInput = document.getElementById('profile-url');
+      const emailInput = document.getElementById('email');
+      const passwordInput = document.getElementById('current-password');
+
+      // Handle register form
+      async function handleRegister(event) {
+        // Prevent the default form behavior
+        event.preventDefault();
+
+        // Get current inputs values
+        const name = nameInput.value;
+        const profileUrl = profileUrlInput.value;
+        const email = emailInput.value;
+        const password = passwordInput.value;
+
+        // Send request to API
+        try {
+          const response = await axios.post('http://localhost:3001/users', {
+            name,
+            profile_url: profileUrl,
+            email,
+            password,
+          });
+
+          // Redirect user to login page
+          window.location.href = './login.html';
+        } catch (error) {
+          const response = error.response;
+
+          // Check if request was successful
+          if (response.status !== 201) {
+            alert('Erro ao cadastrar usuário');
+            return;
+          }
+        }
+      }
+    </script>
   </body>
 </html>

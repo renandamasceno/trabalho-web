@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Duduck - Entrar</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Axios -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Pattaya&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body class="font-['Inter'] bg-[#1C1C23]">
+    <header class="flex items-center justify-center py-8">
+      <a href="./index.html" class="group">
+        <div
+          class="flex items-center justify-center transition-transform group-hover:scale-105"
+        >
+          <img src="./assets/duduck.svg" alt="Logo do Duduck" class="h-16" />
+          <h1 class="font-['Pattaya'] text-white text-4xl">Duduck</h1>
+        </div>
+      </a>
+    </header>
+
+    <form class="mt-32 mx-4 sm:mx-16" onsubmit="authenticate(event)">
+      <div class="mb-2">
+        <label for="email" class="text-[#A2A2B6] text-xs font-medium">
+          E-mail
+        </label>
+        <input
+          type="email"
+          name="email"
+          id="email"
+          placeholder="Digite seu e-mail"
+          required
+          class="text-white text-sm bg-transparent w-full h-12 px-4 border border-[#A2A2B6] rounded-2xl autofill:bg-transparent"
+        />
+      </div>
+      <div class="mb-12">
+        <label
+          for="current-password"
+          class="text-[#A2A2B6] text-xs font-medium"
+        >
+          Senha
+        </label>
+        <input
+          type="password"
+          name="current-password"
+          id="current-password"
+          placeholder="Digite sua senha"
+          required
+          class="text-white text-sm bg-transparent w-full h-12 px-4 border border-[#A2A2B6] rounded-2xl autofill:bg-transparent"
+        />
+      </div>
+
+      <button
+        type="submit"
+        class="text-white text-sm font-semibold w-full h-12 rounded-full transition-transform hover:scale-[1.01]"
+        style="
+          background: radial-gradient(
+              100% 100% at 50% 100%,
+              rgba(255, 255, 255, 0) 43.25%,
+              rgba(255, 127, 55, 0.5) 100%
+            ),
+            #ff7966;
+          box-shadow: 0px 8px 25px rgba(255, 121, 102, 0.5);
+        "
+      >
+        Entrar
+      </button>
+    </form>
+
+    <script>
+      // Get inputs by ID
+      const emailInput = document.getElementById('email');
+      const passwordInput = document.getElementById('current-password');
+
+      // Handle the login form submission
+      async function authenticate(event) {
+        // Prevent the default behavior of the form
+        event.preventDefault();
+
+        // Get values from inputs
+        const email = emailInput.value;
+        const password = passwordInput.value;
+
+        // Send request to API
+        try {
+          const response = await axios.post(
+            'http://localhost:3001/users/authenticate',
+            {
+              email,
+              password,
+            }
+          );
+
+          // Store the user information in the local storage
+          localStorage.setItem('user', JSON.stringify(response.data));
+
+          // Redirect the user to the home page
+          window.location.href = './home.html';
+        } catch (error) {
+          const response = error.response;
+
+          // Check if the user is authenticated
+          if (response.status !== 200) {
+            alert('E-mail ou senha incorretos');
+            return;
+          }
+        }
+      }
+    </script>
+  </body>
+</html>

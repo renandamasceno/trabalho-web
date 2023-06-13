@@ -5,13 +5,21 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Dashboard</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
+
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Axios -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap"
       rel="stylesheet"
     />
+
     <style>
       * {
         font-family: Inter;
@@ -28,16 +36,18 @@
                 class="bg-[#4E4E61]/20 min-w-[8rem] p-6 rounded-2xl flex items-center justify-center gap-2 transition-transform hover:scale-105 hover:cursor-pointer"
               >
                 <img src="./assets/dashboard.svg" />
-                <span class="text-[#83839C] text-xs"> Dashboard </span>
+                <span class="text-[#83839C] text-xs">Dashboard</span>
               </div>
             </li>
             <li>
-              <div
-                class="bg-[#4E4E61]/20 min-w-[8rem] p-6 rounded-2xl flex items-center justify-center gap-2 transition-transform hover:scale-105 hover:cursor-pointer"
-              >
-                <img src="./assets/pagamento.svg" />
-                <span class="text-[#83839C] text-xs"> Pagamento </span>
-              </div>
+              <a href="./pagamento.html">
+                <div
+                  class="bg-[#4E4E61]/20 min-w-[8rem] p-6 rounded-2xl flex items-center justify-center gap-2 transition-transform hover:scale-105 hover:cursor-pointer"
+                >
+                  <img src="./assets/pagamento.svg" />
+                  <span class="text-[#83839C] text-xs">Pagamento</span>
+                </div>
+              </a>
             </li>
           </ul>
 
@@ -45,8 +55,9 @@
             <li>
               <div
                 class="bg-[#4E4E61]/20 min-w-[8rem] p-6 rounded-2xl flex items-center justify-center gap-2 transition-transform hover:scale-105 hover:cursor-pointer"
+                onclick="logout()"
               >
-                <span class="text-[#83839C] text-xs"> Sair </span>
+                <span class="text-[#83839C] text-xs">Sair</span>
               </div>
             </li>
           </ul>
@@ -81,47 +92,101 @@
           </li>
         </ul>
 
-        <ul class="flex flex-col items-center justify-center mt-12 gap-3">
-          <li
-            class="w-full flex items-center justify-between max-w-xs border border-gray-300 rounded-2xl p-3"
-          >
-            <div class="flex items-center gap-2">
-              <img src="./assets/spotify.svg" />
-              <p class="font-bold">Spotify</p>
-            </div>
-            <p>R$24,58</p>
-          </li>
-
-          <li
-            class="w-full flex items-center justify-between max-w-xs border border-gray-300 rounded-2xl p-3"
-          >
-            <div class="flex items-center gap-2">
-              <img src="./assets/spotify.svg" />
-              <p class="font-bold">Spotify</p>
-            </div>
-            <p>R$24,58</p>
-          </li>
-
-          <li
-            class="w-full flex items-center justify-between max-w-xs border border-gray-300 rounded-2xl p-3"
-          >
-            <div class="flex items-center gap-2">
-              <img src="./assets/spotify.svg" />
-              <p class="font-bold">Spotify</p>
-            </div>
-            <p>R$24,58</p>
-          </li>
-          <li
-            class="w-full flex items-center justify-between max-w-xs border border-gray-300 rounded-2xl p-3"
-          >
-            <div class="flex items-center gap-2">
-              <img src="./assets/spotify.svg" />
-              <p class="font-bold">Spotify</p>
-            </div>
-            <p>R$24,58</p>
-          </li>
-        </ul>
+        <ul
+          id="services"
+          class="flex flex-col items-center justify-center mt-12 gap-3"
+        ></ul>
       </main>
     </div>
+
+    <script>
+      // Get service list
+      const serviceList = document.getElementById('services');
+
+      // Logout function
+      function logout() {
+        // Clear user from local storage
+        localStorage.removeItem('user');
+
+        // Redirect to login page
+        window.location.href = './login.html';
+      }
+
+      // Get and list service cards
+      async function listServiceCards() {
+        // Send request to API
+        try {
+          const response = await axios.get('http://localhost:3001/services');
+
+          // Get services from response
+          const services = response.data;
+
+          // Create service cards
+          for (const service of services) {
+            // Create service card
+            const serviceCard = document.createElement('li');
+            serviceCard.classList.add(
+              'w-full',
+              'flex',
+              'items-center',
+              'justify-between',
+              'max-w-xs',
+              'border',
+              'border-[#353542]',
+              'rounded-2xl',
+              'p-3',
+              'transition-transform',
+              'hover:cursor-pointer',
+              'hover:scale-105'
+            );
+
+            // Create service card information
+            const serviceCardInformation = document.createElement('div');
+            serviceCardInformation.classList.add(
+              'flex',
+              'items-center',
+              'gap-4'
+            );
+
+            const serviceCardImage = document.createElement('img');
+            serviceCardImage.src = service.image_url;
+
+            const serviceCardName = document.createElement('p');
+            serviceCardName.classList.add('text-sm', 'font-semibold');
+            serviceCardName.innerText = service.name;
+
+            // Create service card price
+            const serviceCardPrice = document.createElement('p');
+            serviceCardPrice.classList.add('text-sm', 'font-semibold');
+            serviceCardPrice.innerText = `${Intl.NumberFormat('pt-BR', {
+              style: 'currency',
+              currency: 'BRL',
+              useGrouping: true,
+            }).format(service.price)}`; // Format price in BRL
+
+            // Append elements to service card information
+            serviceCardInformation.appendChild(serviceCardImage);
+            serviceCardInformation.appendChild(serviceCardName);
+
+            // Append elements to service card
+            serviceCard.appendChild(serviceCardInformation);
+            serviceCard.appendChild(serviceCardPrice);
+
+            // Append service card to service list
+            serviceList.appendChild(serviceCard);
+          }
+        } catch (error) {
+          const response = error.response;
+
+          // Check if response status code is 200
+          if (response.status !== 200) {
+            alert('Erro ao carregar serviços.');
+          }
+        }
+      }
+
+      // Call function
+      listServiceCards();
+    </script>
   </body>
 </html>
