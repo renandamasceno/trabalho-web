@@ -71,7 +71,7 @@
               class="bg-[#4E4E61]/20 min-w-[8rem] px-2.5 py-4 rounded-2xl flex flex-col items-center justify-center gap-1 transition-transform hover:scale-105 hover:cursor-pointer"
             >
               <p class="text-[#83839C] text-xs">Assinaturas ativas</p>
-              <p class="font-bold">12</p>
+              <p id="total-active-subscriptions" class="font-bold"></p>
             </div>
           </li>
           <li>
@@ -79,7 +79,7 @@
               class="bg-[#4E4E61]/20 min-w-[8rem] px-2.5 py-4 rounded-2xl flex flex-col items-center justify-center gap-1 transition-transform hover:scale-105 hover:cursor-pointer"
             >
               <p class="text-[#83839C] text-xs">Assinatura mais cara</p>
-              <p class="font-bold">R$66,66</p>
+              <p id="highest-subscription-price" class="font-bold"></p>
             </div>
           </li>
           <li>
@@ -87,7 +87,7 @@
               class="bg-[#4E4E61]/20 min-w-[8rem] px-2.5 py-4 rounded-2xl flex flex-col items-center justify-center gap-1 transition-transform hover:scale-105 hover:cursor-pointer"
             >
               <p class="text-[#83839C] text-xs">Assinatura mais barata</p>
-              <p class="font-bold">R$69,69</p>
+              <p id="lowest-subscription-price" class="font-bold"></p>
             </div>
           </li>
         </ul>
@@ -100,23 +100,76 @@
     </div>
 
     <script>
+      // Get authenticated user from local storage
+      let authenticatedUser = JSON.parse(localStorage.getItem("user"));
+
+      if (!authenticatedUser) {
+        // Redirect to login page if user is not authenticated
+        window.location.href = "./login.html";
+      }
+    </script>
+
+    <script>
+      const totalActiveSubscriptions = document.getElementById(
+        "total-active-subscriptions"
+      );
+      const highestSubscriptionPrice = document.getElementById(
+        "highest-subscription-price"
+      );
+      const lowestSubscriptionPrice = document.getElementById(
+        "lowest-subscription-price"
+      );
+
+      async function updateDashboardInformation() {
+        // Send request to API
+        try {
+          const response = await axios.get(
+            `http://localhost:3001/users/${authenticatedUser.id}/dashboard`
+          );
+
+          totalActiveSubscriptions.innerHTML =
+            response.data.totalActiveSubscriptions;
+          highestSubscriptionPrice.innerHTML = `${Intl.NumberFormat("pt-BR", {
+            style: "currency",
+            currency: "BRL",
+            useGrouping: true,
+          }).format(response.data.highestSubscriptionPrice)}`;
+          lowestSubscriptionPrice.innerHTML = `${Intl.NumberFormat("pt-BR", {
+            style: "currency",
+            currency: "BRL",
+            useGrouping: true,
+          }).format(response.data.lowestSubscriptionPrice)}`;
+        } catch (error) {
+          const response = error.response;
+
+          // Check if response status code is 201
+          if (response.status !== 200) {
+            alert("Ocorreu um erro ao calcular as informacoes do dashboard");
+            return;
+          }
+        }
+      }
+      updateDashboardInformation();
+    </script>
+
+    <script>
       // Get service list
-      const serviceList = document.getElementById('services');
+      const serviceList = document.getElementById("services");
 
       // Logout function
       function logout() {
         // Clear user from local storage
-        localStorage.removeItem('user');
+        localStorage.removeItem("user");
 
         // Redirect to login page
-        window.location.href = './login.html';
+        window.location.href = "./login.html";
       }
 
       // Get and list service cards
       async function listServiceCards() {
         // Send request to API
         try {
-          const response = await axios.get('http://localhost:3001/services');
+          const response = await axios.get("http://localhost:3001/services");
 
           // Get services from response
           const services = response.data;
@@ -124,43 +177,43 @@
           // Create service cards
           for (const service of services) {
             // Create service card
-            const serviceCard = document.createElement('li');
+            const serviceCard = document.createElement("li");
             serviceCard.classList.add(
-              'w-full',
-              'flex',
-              'items-center',
-              'justify-between',
-              'max-w-xs',
-              'border',
-              'border-[#353542]',
-              'rounded-2xl',
-              'p-3',
-              'transition-transform',
-              'hover:cursor-pointer',
-              'hover:scale-105'
+              "w-full",
+              "flex",
+              "items-center",
+              "justify-between",
+              "max-w-xs",
+              "border",
+              "border-[#353542]",
+              "rounded-2xl",
+              "p-3",
+              "transition-transform",
+              "hover:cursor-pointer",
+              "hover:scale-105"
             );
 
             // Create service card information
-            const serviceCardInformation = document.createElement('div');
+            const serviceCardInformation = document.createElement("div");
             serviceCardInformation.classList.add(
-              'flex',
-              'items-center',
-              'gap-4'
+              "flex",
+              "items-center",
+              "gap-4"
             );
 
-            const serviceCardImage = document.createElement('img');
+            const serviceCardImage = document.createElement("img");
             serviceCardImage.src = service.image_url;
 
-            const serviceCardName = document.createElement('p');
-            serviceCardName.classList.add('text-sm', 'font-semibold');
+            const serviceCardName = document.createElement("p");
+            serviceCardName.classList.add("text-sm", "font-semibold");
             serviceCardName.innerText = service.name;
 
             // Create service card price
-            const serviceCardPrice = document.createElement('p');
-            serviceCardPrice.classList.add('text-sm', 'font-semibold');
-            serviceCardPrice.innerText = `${Intl.NumberFormat('pt-BR', {
-              style: 'currency',
-              currency: 'BRL',
+            const serviceCardPrice = document.createElement("p");
+            serviceCardPrice.classList.add("text-sm", "font-semibold");
+            serviceCardPrice.innerText = `${Intl.NumberFormat("pt-BR", {
+              style: "currency",
+              currency: "BRL",
               useGrouping: true,
             }).format(service.price)}`; // Format price in BRL
 
@@ -180,7 +233,7 @@
 
           // Check if response status code is 200
           if (response.status !== 200) {
-            alert('Erro ao carregar serviços.');
+            alert("Erro ao carregar serviços.");
           }
         }
       }

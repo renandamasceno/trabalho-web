@@ -18,7 +18,8 @@ model User {
   name        String
   profile_url String
 
-  cards Card[]
+  cards         Card[]
+  subscriptions Subscription[]
 
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
@@ -30,6 +31,8 @@ model Service {
   name      String @unique
   price     Float
   image_url String
+
+  subscriptions Subscription[]
 
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
@@ -48,4 +51,18 @@ model Card {
   updated_at DateTime @updatedAt
 
   User User @relation(fields: [user_id], references: [id])
+}
+
+model Subscription {
+  id String @id @default(uuid())
+
+  service_id String
+  user_id    String
+  active     Boolean
+
+  user    User    @relation(fields: [user_id], references: [id])
+  service Service @relation(fields: [service_id], references: [id])
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
 }
